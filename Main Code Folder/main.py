@@ -45,3 +45,46 @@ def combine_files(folder_path, file_type='xlsx'):
 Folder_path = "/workspaces/ConcatNSplit/Data Folder"
 df = combine_files(Folder_path , 'csv')
 print(df)
+
+################ Split Data Frame into small files ################
+def split_and_save_dataframe(df, interval, file_type='csv'):
+    """
+    Split a DataFrame into user-defined row intervals and save them into files with sequential names.
+
+    Parameters:
+        df (pandas.DataFrame): The DataFrame to be split.
+        interval (int): The number of rows per interval.
+        file_type (str): The type of file to save ('csv' or 'xlsx'). Default is 'csv'.
+
+    Returns:
+        None
+    """
+    # Calculate total number of rows in the DataFrame
+    total_rows = len(df)
+    # Calculate total number of intervals needed
+    num_intervals = total_rows // interval + (1 if total_rows % interval != 0 else 0)
+    
+    # Iterate over each interval
+    for i in range(num_intervals):
+        # Calculate start and end index for the current interval
+        start_idx = i * interval
+        end_idx = min((i + 1) * interval, total_rows)
+        # Slice the DataFrame to get the current interval
+        interval_df = df.iloc[start_idx:end_idx]
+        
+        # Generate file name for the current interval
+        file_name = f"output_{i+1}.{file_type}"
+        
+        # Save interval DataFrame to file based on file_type
+        if file_type == 'csv':
+            interval_df.to_csv(file_name, index=False)
+        elif file_type == 'xlsx':
+            interval_df.to_excel(file_name, index=False)
+        else:
+            # Raise ValueError if file_type is not supported
+            raise ValueError("Unsupported file type. Please choose either 'csv' or 'xlsx'.")
+
+
+################ Folder path to save files ################
+
+split_and_save_dataframe(df , 2 , 'xlsx')
