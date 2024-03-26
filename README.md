@@ -1,2 +1,3 @@
-# ConcatNSplit
-It is a python project for combining multiple files and splitting large data frame into small files
+# Concat N Split
+#### pypi Project
+in this project i have created one python package to combine multiple csv or xlsx files and split data frame into muplite small xlsx or csv files 
